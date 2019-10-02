@@ -136,7 +136,7 @@ class MemoListState extends State<MemoList> {
   }
 
   // Build the whole list of todo items
-  Widget _buildTodoList() {
+  Widget _buildMemoList() {
     return new ListView.builder(
       // itemBuilder will be automatically be called as many times as it takes
       // for the list to fill up its available space, which is most likely
@@ -167,7 +167,7 @@ class MemoListState extends State<MemoList> {
           title: new Text('Memo')
       ),
 
-      body: _buildTodoList(),
+      body: _buildMemoList(),
 
       floatingActionButton: new FloatingActionButton(
         // pressing this button now opens the new screen
