@@ -150,7 +150,7 @@ class TodoListState extends State<TodoList> {
       floatingActionButton: new FloatingActionButton(
         // pressing this button now opens the new screen
           onPressed: _pushAddTodoScreen,
-          tooltip: 'Add task',
+          tooltip: 'Add Memo',
           child: new Icon(Icons.add)
       ),
     );
