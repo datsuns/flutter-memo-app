@@ -149,7 +149,7 @@ class TodoListState extends State<TodoList> {
 
       floatingActionButton: new FloatingActionButton(
         // pressing this button now opens the new screen
-          onPressed: _pushAddTodoScreen,
+          onPressed: _pushAddMemoScreen,
           tooltip: 'Add Memo',
           child: new Icon(Icons.add)
       ),
@@ -185,7 +185,7 @@ class TodoListState extends State<TodoList> {
 
   // MaterialPageRoute will automatically animate the screen entry,
   // as well as adding a back button to close it
-  MaterialPageRoute _generateTaskAddView(BuildContext context) {
+  MaterialPageRoute _generateTaskMemoView(BuildContext context) {
     var page = new MaterialPageRoute(
           builder: (context) {
             return new Scaffold(
@@ -199,10 +199,10 @@ class TodoListState extends State<TodoList> {
     return page;
   }
 
-  void _pushAddTodoScreen() {
+  void _pushAddMemoScreen() {
     // Push this page onto the stack
     Navigator.of(context).push(
-      _generateTaskAddView(context)
+      _generateTaskMemoView(context)
     );
   }
 
