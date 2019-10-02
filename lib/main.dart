@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'dart:core';
+import 'item.dart' as item;
 
 void main() => runApp(new AppMain());
 
@@ -16,52 +17,13 @@ class AppMain extends StatelessWidget {
   }
 }
 
-class MemoItem {
-  String _title;
-  String _body;
-  String _saveKey;
-
-  String toTitle(String base) {
-    return base.split('\n')[0];
-  }
-
-  MemoItem(String key, String text) {
-    this._body = text;
-    this._title = this.toTitle(text);
-    this._saveKey  = key;
-  }
-
-  void overwrite(String text) {
-    this._body = text;
-    this._title = this.toTitle(text);
-  }
-
-  String title(){
-    return this._title;
-  }
-
-  String body(){
-    return this._body;
-  }
-
-  String key(){
-    return this._saveKey;
-  }
-
-  void dump(){
-    print('     title[${this.title()}]');
-    print('       key[${this.key()}]');
-    print('      body[[${this.body()}]]');
-  }
-}
-
 class MemoList extends StatefulWidget {
   @override
   createState() => new MemoListState();
 }
 
 class MemoListState extends State<MemoList> {
-  List<MemoItem> _memoItems = [];
+  List<item.MemoItem> _memoItems = [];
 
   @override
   void initState() {
@@ -72,7 +34,7 @@ class MemoListState extends State<MemoList> {
   void _loadSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for(var key in prefs.getKeys()){
-      setState( () => this._memoItems.add(new MemoItem(key, prefs.getString(key))) );
+      setState( () => this._memoItems.add(new item.MemoItem(key, prefs.getString(key))) );
     }
   }
 
@@ -86,9 +48,9 @@ class MemoListState extends State<MemoList> {
     //     and that cause re-render
     if( body.length > 0 ){
       setState( () {
-        var item = new MemoItem(DateTime.now().toString(), body);
-        this._memoItems.add(item);
-        prefs.setString(item.key(), item.body());
+        var i = new item.MemoItem(DateTime.now().toString(), body);
+        this._memoItems.add(i);
+        prefs.setString(i.key(), i.body());
       });
     }
   }
