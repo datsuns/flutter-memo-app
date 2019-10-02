@@ -20,15 +20,19 @@ class MemoItem {
   String _body;
   String _saveKey;
 
+  String toTitle(String base) {
+    return base.split('\n')[0];
+  }
+
   MemoItem(String key, String text) {
     this._body = text;
-    this._title = text.split('\n')[0];
+    this._title = this.toTitle(text);
     this._saveKey  = key;
   }
 
   void overwrite(String text) {
     this._body = text;
-    this._title = text.split('\n')[0];
+    this._title = this.toTitle(text);
   }
 
   String title(){
