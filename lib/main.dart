@@ -178,13 +178,10 @@ class MemoListState extends State<MemoList> {
   Widget _generateMemoRegisterInput(BuildContext context) {
     return new Scaffold(
       body: new TextField(
-        autofocus: true,
+        autofocus:    true,
         keyboardType: TextInputType.multiline,
-        maxLines: null,
-
-        onChanged: (text) {
-          this.latestInput = text;
-        },
+        maxLines:     null,
+        onChanged: (text) => this.latestInput = text,
 
         decoration: new InputDecoration(
             hintText: 'Enter something ...',
@@ -213,10 +210,7 @@ class MemoListState extends State<MemoList> {
         keyboardType: TextInputType.multiline,
         maxLines:     null,
         controller:   controller,
-
-        onChanged: (text) {
-          this.latestInput = text;
-        },
+        onChanged: (text) => this.latestInput = text,
       ),
 
       floatingActionButton: new FloatingActionButton(
@@ -230,34 +224,28 @@ class MemoListState extends State<MemoList> {
     );
   }
 
+  MaterialPageRoute _generateMaterialPageWith(BuildContext context, Scaffold s) {
+    return new MaterialPageRoute(
+        builder: (context) => s
+    );
+  }
+
   // MaterialPageRoute will automatically animate the screen entry,
   // as well as adding a back button to close it
   MaterialPageRoute _generateMemoRegisterView(BuildContext context) {
-    var page = new MaterialPageRoute(
-        builder: (context) {
-          return new Scaffold(
-            appBar: new AppBar(
-                title: new Text('Add new Memo')
-            ),
-            body: _generateMemoRegisterInput(context),
-          );
-        }
-    );
-    return page;
+    return _generateMaterialPageWith(context, new Scaffold(
+            appBar: new AppBar(title: new Text('Add new Memo')),
+            body:   _generateMemoRegisterInput(context),
+          )
+        );
   }
 
   MaterialPageRoute _generateMemoEditView(BuildContext context, int index) {
-    var page = new MaterialPageRoute(
-        builder: (context) {
-          return new Scaffold(
-            appBar: new AppBar(
-                title: new Text('Edit Memo')
-            ),
-            body: _generateMemoEditInput(context, index),
-          );
-        }
-    );
-    return page;
+    return _generateMaterialPageWith(context, new Scaffold(
+            appBar: new AppBar(title: new Text('Edit Memo')),
+            body:   _generateMemoEditInput(context, index),
+          )
+        );
   }
 
   void _pushAddMemoScreen() {
