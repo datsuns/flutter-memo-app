@@ -26,6 +26,11 @@ class MemoItem {
     this._saveKey  = key;
   }
 
+  void overwrite(String text) {
+    this._body = text;
+    this._title = text.split('\n')[0];
+  }
+
   String title(){
     return this._title;
   }
@@ -91,6 +96,13 @@ class MemoListState extends State<MemoList> {
     var target = this._memoItems[index];
     setState( () => this._memoItems.removeAt(index));
     await prefs.remove(target.key());
+  }
+
+  void _updateMemoItem(int index, String body) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var target = this._memoItems[index];
+    setState( () => target.overwrite(body) );
+    prefs.setString(target.key(), target.body());
   }
 
 
@@ -210,13 +222,12 @@ class MemoListState extends State<MemoList> {
         keyboardType: TextInputType.multiline,
         maxLines:     null,
         controller:   controller,
-        onChanged: (text) => this.latestInput = text,
       ),
 
       floatingActionButton: new FloatingActionButton(
           onPressed: (){
             Navigator.pop(context); // Close the add todo screen
-            //this.latestInput = "";
+            _updateMemoItem(index, controller.text);
           },
           tooltip: 'Update Memo',
           child: new Icon(Icons.check)
