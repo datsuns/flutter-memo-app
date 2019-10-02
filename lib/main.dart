@@ -177,6 +177,7 @@ class MemoListState extends State<MemoList> {
           onPressed: (){
             Navigator.pop(context); // Close the add todo screen
             _addMemoItem(this.latestInput);
+            this.latestInput = "";
           },
           tooltip: 'Register Memo',
           child: new Icon(Icons.add)
