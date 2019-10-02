@@ -57,7 +57,6 @@ class MemoList extends StatefulWidget {
 
 class MemoListState extends State<MemoList> {
   List<MemoItem> _memoItems = [];
-  String latestInput = '';
 
   @override
   void initState() {
@@ -72,7 +71,7 @@ class MemoListState extends State<MemoList> {
     }
   }
 
-  // Instead of auto generating a todo item, _addMemoItem now accepts a string
+  // Instead of auto generating a memo item, _addMemoItem now accepts a string
   void _addMemoItem(String body) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Putting our code inside "setState" tells the app that our state has changed,
@@ -89,7 +88,7 @@ class MemoListState extends State<MemoList> {
     }
   }
 
-  // Much like _addMemoItem, this modifies the array of todo strings and
+  // Much like _addMemoItem, this modifies the array of memo strings and
   // notifies the app that the state has changed by using setState
   void _removeMemoItem(int index) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -135,12 +134,12 @@ class MemoListState extends State<MemoList> {
     );
   }
 
-  // Build the whole list of todo items
+  // Build the whole list of memo items
   Widget _buildMemoList() {
     return new ListView.builder(
       // itemBuilder will be automatically be called as many times as it takes
       // for the list to fill up its available space, which is most likely
-      // more than the number of todo items we have.
+      // more than the number of memo items we have.
       // So, we need to check the index is OK.
       // ignore: missing_return
       itemBuilder: (context, index) {
@@ -151,7 +150,7 @@ class MemoListState extends State<MemoList> {
     );
   }
 
-  // Build a single todo item
+  // Build a single memo item
   Widget _buildTodoItem(String todoText, int index){
     return new ListTile(
       title: new Text(todoText),
@@ -190,12 +189,13 @@ class MemoListState extends State<MemoList> {
   }
 
   Widget _generateMemoRegisterInput(BuildContext context) {
+    TextEditingController controller = new TextEditingController(text: "");
     return new Scaffold(
       body: new TextField(
         autofocus:    true,
         keyboardType: TextInputType.multiline,
         maxLines:     null,
-        onChanged: (text) => this.latestInput = text,
+        controller:   controller,
 
         decoration: new InputDecoration(
             hintText: 'Enter something ...',
@@ -205,12 +205,11 @@ class MemoListState extends State<MemoList> {
 
       floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            Navigator.pop(context); // Close the add todo screen
-            _addMemoItem(this.latestInput);
-            this.latestInput = "";
+            Navigator.pop(context); // Close the add memo screen
+            _addMemoItem(controller.text);
           },
           tooltip: 'Register Memo',
-          child: new Icon(Icons.add)
+          child: new Icon(Icons.check)
       ),
     );
   }
@@ -228,7 +227,7 @@ class MemoListState extends State<MemoList> {
 
       floatingActionButton: new FloatingActionButton(
           onPressed: (){
-            Navigator.pop(context); // Close the add todo screen
+            Navigator.pop(context); // Close the add memo screen
             _updateMemoItem(index, controller.text);
           },
           tooltip: 'Update Memo',
