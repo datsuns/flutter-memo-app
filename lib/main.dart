@@ -120,6 +120,12 @@ class MemoListState extends State<MemoList> {
     );
   }
 
+  void _memoEditAction(int index){
+    Navigator.of(context).push(
+        _generateMemoEditView(context, index)
+    );
+  }
+
   // Build the whole list of todo items
   Widget _buildTodoList() {
     return new ListView.builder(
@@ -139,10 +145,8 @@ class MemoListState extends State<MemoList> {
   // Build a single todo item
   Widget _buildTodoItem(String todoText, int index){
     return new ListTile(
-        title: new Text(todoText),
-        //onTap: () => _promptRemoveTodoItem(index)
-        onTap: () {
-        },
+      title: new Text(todoText),
+      onTap: () => _memoEditAction(index),
     );
   }
 
@@ -200,26 +204,66 @@ class MemoListState extends State<MemoList> {
     );
   }
 
+  Widget _generateMemoEditInput(BuildContext context, int index) {
+    var target = this._memoItems[index];
+    TextEditingController controller = new TextEditingController(text: target.body());
+    return new Scaffold(
+      body: new TextField(
+        autofocus:    true,
+        keyboardType: TextInputType.multiline,
+        maxLines:     null,
+        controller:   controller,
+
+        onChanged: (text) {
+          this.latestInput = text;
+        },
+      ),
+
+      floatingActionButton: new FloatingActionButton(
+          onPressed: (){
+            Navigator.pop(context); // Close the add todo screen
+            //this.latestInput = "";
+          },
+          tooltip: 'Update Memo',
+          child: new Icon(Icons.check)
+      ),
+    );
+  }
+
   // MaterialPageRoute will automatically animate the screen entry,
   // as well as adding a back button to close it
   MaterialPageRoute _generateMemoRegisterView(BuildContext context) {
     var page = new MaterialPageRoute(
-          builder: (context) {
-            return new Scaffold(
-              appBar: new AppBar(
-                  title: new Text('Add new Memo')
-              ),
-              body: _generateMemoRegisterInput(context),
-            );
-          }
-        );
+        builder: (context) {
+          return new Scaffold(
+            appBar: new AppBar(
+                title: new Text('Add new Memo')
+            ),
+            body: _generateMemoRegisterInput(context),
+          );
+        }
+    );
+    return page;
+  }
+
+  MaterialPageRoute _generateMemoEditView(BuildContext context, int index) {
+    var page = new MaterialPageRoute(
+        builder: (context) {
+          return new Scaffold(
+            appBar: new AppBar(
+                title: new Text('Edit Memo')
+            ),
+            body: _generateMemoEditInput(context, index),
+          );
+        }
+    );
     return page;
   }
 
   void _pushAddMemoScreen() {
     // Push this page onto the stack
     Navigator.of(context).push(
-      _generateMemoRegisterView(context)
+        _generateMemoRegisterView(context)
     );
   }
 
