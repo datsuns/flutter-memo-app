@@ -181,7 +181,11 @@ class MemoListState extends State<MemoList> {
       persistentFooterButtons: <Widget>[
         new FlatButton(
           onPressed: _debugDumpMemoItems,
-          child: new Text('dbg'),
+          child: new Text('dump-cur'),
+        ),
+        new FlatButton(
+          onPressed: _debugDumpSavedItems,
+          child: new Text('dump-saved'),
         ),
       ],
     );
@@ -271,6 +275,16 @@ class MemoListState extends State<MemoList> {
     for(var i = 0; i < this._memoItems.length; i++ ){
       print('  [${i}]');
       this._memoItems[i].dump();
+    }
+  }
+
+  void _debugDumpSavedItems() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var keys = prefs.getKeys();
+    print('[${keys.length}] items saved');
+    for( var k in prefs.getKeys() ) {
+      print('-- key[${k}] --');
+      print('  body[${prefs.getString(k)}] --');
     }
   }
 }
