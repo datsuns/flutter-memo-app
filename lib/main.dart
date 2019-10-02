@@ -159,6 +159,7 @@ class MemoListState extends State<MemoList> {
   Widget _generateMemoRegisterInput(BuildContext context) {
     return new Scaffold(
       body: new TextField(
+        autofocus: true,
         keyboardType: TextInputType.multiline,
         maxLines: null,
 
