@@ -104,7 +104,7 @@ class MemoListState extends State<MemoList> {
     prefs.setString(target.key(), target.body());
   }
 
-  void _promptRemoveTodoItem(int index){
+  void _promptRemoveMemoItem(int index){
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -144,18 +144,18 @@ class MemoListState extends State<MemoList> {
       // ignore: missing_return
       itemBuilder: (context, index) {
         if(index < this._memoItems.length){
-          return _buildTodoItem(this._memoItems[index].title(), index);
+          return _buildMemoItem(this._memoItems[index].title(), index);
         }
       },
     );
   }
 
   // Build a single memo item
-  Widget _buildTodoItem(String todoText, int index){
+  Widget _buildMemoItem(String text, int index){
     return new ListTile(
-      title: new Text(todoText),
+      title: new Text(text),
       onTap: () => _memoEditAction(index),
-      onLongPress: () => _promptRemoveTodoItem(index),
+      onLongPress: () => _promptRemoveMemoItem(index),
     );
   }
 
