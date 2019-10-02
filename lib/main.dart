@@ -63,7 +63,7 @@ class MemoListState extends State<MemoList> {
   void _loadSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for(var key in prefs.getKeys()){
-      _memoItems.add(new MemoItem(key, prefs.getString(key)));
+      this._memoItems.add(new MemoItem(key, prefs.getString(key)));
     }
   }
 
@@ -78,7 +78,7 @@ class MemoListState extends State<MemoList> {
     if( body.length > 0 ){
       setState( () {
         var item = new MemoItem(DateTime.now().toString(), body);
-        _memoItems.add(item);
+        this._memoItems.add(item);
         prefs.setString(item.key(), item.body());
       });
     }
@@ -88,8 +88,8 @@ class MemoListState extends State<MemoList> {
   // notifies the app that the state has changed by using setState
   void _removeMemoItem(int index) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var target = _memoItems[index];
-    setState( () => _memoItems.removeAt(index));
+    var target = this._memoItems[index];
+    setState( () => this._memoItems.removeAt(index));
     await prefs.remove(target.key());
   }
 
@@ -99,7 +99,7 @@ class MemoListState extends State<MemoList> {
         context: context,
         builder: (BuildContext context) {
           return new AlertDialog(
-              title: new Text('Delete Memo "${_memoItems[index].title()}" ??'),
+              title: new Text('Delete Memo "${this._memoItems[index].title()}" ??'),
 
               actions: <Widget>[
                 new FlatButton(
@@ -135,8 +135,8 @@ class MemoListState extends State<MemoList> {
       // So, we need to check the index is OK.
       // ignore: missing_return
       itemBuilder: (context, index) {
-        if(index < _memoItems.length){
-          return _buildTodoItem(_memoItems[index].title(), index);
+        if(index < this._memoItems.length){
+          return _buildTodoItem(this._memoItems[index].title(), index);
         }
       },
     );
@@ -256,10 +256,10 @@ class MemoListState extends State<MemoList> {
   }
 
   void _debugDumpMemoItems() {
-    print('[${_memoItems.length}] items.');
-    for(var i = 0; i < _memoItems.length; i++ ){
+    print('[${this._memoItems.length}] items.');
+    for(var i = 0; i < this._memoItems.length; i++ ){
       print('  [${i}]');
-      _memoItems[i].dump();
+      this._memoItems[i].dump();
     }
   }
 }
