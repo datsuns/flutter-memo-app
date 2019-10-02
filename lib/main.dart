@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:core';
 
-void main() => runApp(new TodoApp());
+void main() => runApp(new AppMain());
 
-class TodoApp extends StatelessWidget {
+class AppMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: 'SimpleMemo',
-        home: new TodoList()
+        home: new MemoList()
     );
   }
 }
 
-class ToDoItem {
+class MemoItem {
   String _title;
   String _body;
   String _saveKey;
 
-  ToDoItem(String text) {
+  MemoItem(String text) {
     this._body = text;
     this._title = text.split('\n')[0];
     this._saveKey  = DateTime.now().toString();
@@ -39,13 +39,13 @@ class ToDoItem {
   }
 }
 
-class TodoList extends StatefulWidget {
+class MemoList extends StatefulWidget {
   @override
-  createState() => new TodoListState();
+  createState() => new MemoListState();
 }
 
-class TodoListState extends State<TodoList> {
-  List<ToDoItem> _todoItems = [];
+class MemoListState extends State<MemoList> {
+  List<MemoItem> _memoItems = [];
   String latestInput = '';
 
   @override
@@ -57,7 +57,7 @@ class TodoListState extends State<TodoList> {
   void _loadSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for(var key in prefs.getKeys()){
-      _todoItems.add(new ToDoItem(prefs.getString(key)));
+      _memoItems.add(new MemoItem(prefs.getString(key)));
     }
   }
 
@@ -67,12 +67,12 @@ class TodoListState extends State<TodoList> {
     // Putting our code inside "setState" tells the app that our state has changed,
     // and it will automatically re-render the list
     //             ^^^^^^^^^^^^^^^^^^^^^^^
-    // ==> calling setState() to invoke TodoList.createState(),
+    // ==> calling setState() to invoke MemoList.createState(),
     //     and that cause re-render
     if( task.length > 0 ){
       setState( () {
-        var item = new ToDoItem(task);
-        _todoItems.add(item);
+        var item = new MemoItem(task);
+        _memoItems.add(item);
         prefs.setString(item.key(), item.body());
       });
     }
@@ -82,8 +82,8 @@ class TodoListState extends State<TodoList> {
   // notifies the app that the state has changed by using setState
   void _removeMemoItem(int index) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var target = _todoItems[index];
-    setState( () => _todoItems.removeAt(index));
+    var target = _memoItems[index];
+    setState( () => _memoItems.removeAt(index));
     await prefs.remove(target.title());
   }
 
@@ -93,7 +93,7 @@ class TodoListState extends State<TodoList> {
         context: context,
         builder: (BuildContext context) {
           return new AlertDialog(
-              title: new Text('Delete Memo "${_todoItems[index]}" ??'),
+              title: new Text('Delete Memo "${_memoItems[index].title()}" ??'),
 
               actions: <Widget>[
                 new FlatButton(
@@ -123,8 +123,8 @@ class TodoListState extends State<TodoList> {
       // So, we need to check the index is OK.
       // ignore: missing_return
       itemBuilder: (context, index) {
-        if(index < _todoItems.length){
-          return _buildTodoItem(_todoItems[index].title(), index);
+        if(index < _memoItems.length){
+          return _buildTodoItem(_memoItems[index].title(), index);
         }
       },
     );
