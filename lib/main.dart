@@ -1,6 +1,7 @@
 // Import MaterialApp and other widgets which we can use to quickly create a material app
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart' as foundation;
 import 'dart:core';
 
 void main() => runApp(new AppMain());
@@ -165,21 +166,7 @@ class MemoListState extends State<MemoList> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-          title: new Text('Memo')
-      ),
-
-      body: _buildMemoList(),
-
-      floatingActionButton: new FloatingActionButton(
-        // pressing this button now opens the new screen
-          onPressed: _pushAddMemoScreen,
-          tooltip: 'Add Memo',
-          child: new Icon(Icons.add)
-      ),
-
-      persistentFooterButtons: <Widget>[
+    var footer = foundation.kReleaseMode ? null : <Widget>[
         new FlatButton(
           onPressed: _debugDumpMemoItems,
           child: new Text('dump-cur'),
@@ -188,7 +175,20 @@ class MemoListState extends State<MemoList> {
           onPressed: _debugDumpSavedItems,
           child: new Text('dump-saved'),
         ),
-      ],
+      ];
+
+    return new Scaffold(
+      appBar: new AppBar(
+          title: new Text('Memo')
+      ),
+      body: _buildMemoList(),
+      persistentFooterButtons: footer,
+      floatingActionButton: new FloatingActionButton(
+        // pressing this button now opens the new screen
+          onPressed: _pushAddMemoScreen,
+          tooltip: 'Add Memo',
+          child: new Icon(Icons.add)
+      ),
     );
   }
 
