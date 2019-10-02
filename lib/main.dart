@@ -61,8 +61,8 @@ class TodoListState extends State<TodoList> {
     }
   }
 
-  // Instead of auto generating a todo item, _addTodoItem now accepts a string
-  void _addTodoItem(String task) async {
+  // Instead of auto generating a todo item, _addMemoItem now accepts a string
+  void _addMemoItem(String task) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Putting our code inside "setState" tells the app that our state has changed,
     // and it will automatically re-render the list
@@ -78,9 +78,9 @@ class TodoListState extends State<TodoList> {
     }
   }
 
-  // Much like _addTodoItem, this modifies the array of todo strings and
+  // Much like _addMemoItem, this modifies the array of todo strings and
   // notifies the app that the state has changed by using setState
-  void _removeTodoItem(int index) async{
+  void _removeMemoItem(int index) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var target = _todoItems[index];
     setState( () => _todoItems.removeAt(index));
@@ -93,7 +93,7 @@ class TodoListState extends State<TodoList> {
         context: context,
         builder: (BuildContext context) {
           return new AlertDialog(
-              title: new Text('Mark "${_todoItems[index]}" ad done?'),
+              title: new Text('Delete Memo "${_todoItems[index]}" ??'),
 
               actions: <Widget>[
                 new FlatButton(
@@ -102,9 +102,9 @@ class TodoListState extends State<TodoList> {
                 ),
 
                 new FlatButton(
-                    child: new Text('DONE'),
+                    child: new Text('Delete'),
                     onPressed: (){
-                      _removeTodoItem(index);
+                      _removeMemoItem(index);
                       Navigator.of(context).pop();
                     }
                 ),
@@ -156,7 +156,7 @@ class TodoListState extends State<TodoList> {
     );
   }
 
-  Widget _generateTaskAddInput(BuildContext context) {
+  Widget _generateMemoRegisterInput(BuildContext context) {
     return new Scaffold(
       body: new TextField(
         keyboardType: TextInputType.multiline,
@@ -167,7 +167,7 @@ class TodoListState extends State<TodoList> {
         },
 
         decoration: new InputDecoration(
-            hintText: 'Enter something todo ...',
+            hintText: 'Enter something ...',
             contentPadding: const EdgeInsets.all(16.0)
         ),
       ),
@@ -175,9 +175,9 @@ class TodoListState extends State<TodoList> {
       floatingActionButton: new FloatingActionButton(
           onPressed: (){
             Navigator.pop(context); // Close the add todo screen
-            _addTodoItem(this.latestInput);
+            _addMemoItem(this.latestInput);
           },
-          tooltip: 'Add task',
+          tooltip: 'Register Memo',
           child: new Icon(Icons.add)
       ),
     );
@@ -190,9 +190,9 @@ class TodoListState extends State<TodoList> {
           builder: (context) {
             return new Scaffold(
               appBar: new AppBar(
-                  title: new Text('Add new Task')
+                  title: new Text('Add new Memo')
               ),
-              body: _generateTaskAddInput(context),
+              body: _generateMemoRegisterInput(context),
             );
           }
         );
