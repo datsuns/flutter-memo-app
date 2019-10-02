@@ -163,9 +163,9 @@ class MemoListState extends State<MemoList> {
       ),
 
       persistentFooterButtons: <Widget>[
-        new FloatingActionButton(
+        new FlatButton(
           onPressed: _debugDumpMemoItems,
-          child: new Icon(Icons.local_hospital)
+          child: new Text('dbg'),
         ),
       ],
     );
