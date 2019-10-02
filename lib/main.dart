@@ -9,7 +9,7 @@ class TodoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Todo List',
+        title: 'SimpleMemo',
         home: new TodoList()
     );
   }
@@ -142,7 +142,7 @@ class TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text('ToDo List')
+          title: new Text('Memo')
       ),
 
       body: _buildTodoList(),
