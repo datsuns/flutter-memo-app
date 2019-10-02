@@ -105,20 +105,17 @@ class MemoListState extends State<MemoList> {
     prefs.setString(target.key(), target.body());
   }
 
-
   void _promptRemoveTodoItem(int index){
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return new AlertDialog(
               title: new Text('Delete Memo "${this._memoItems[index].title()}" ??'),
-
               actions: <Widget>[
                 new FlatButton(
                     child: new Text('CANCEL'),
                     onPressed: () => Navigator.of(context).pop()
                 ),
-
                 new FlatButton(
                     child: new Text('Delete'),
                     onPressed: (){
@@ -159,6 +156,7 @@ class MemoListState extends State<MemoList> {
     return new ListTile(
       title: new Text(todoText),
       onTap: () => _memoEditAction(index),
+      onLongPress: () => _promptRemoveTodoItem(index),
     );
   }
 
