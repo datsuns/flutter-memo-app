@@ -37,6 +37,12 @@ class MemoItem {
   String key(){
     return this._saveKey;
   }
+
+  void dump(){
+    print('     title[${this.title()}]');
+    print('       key[${this.key()}]');
+    print('      body[[${this.body()}]]');
+  }
 }
 
 class MemoList extends StatefulWidget {
@@ -84,7 +90,7 @@ class MemoListState extends State<MemoList> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var target = _memoItems[index];
     setState( () => _memoItems.removeAt(index));
-    await prefs.remove(target.title());
+    await prefs.remove(target.key());
   }
 
 
@@ -134,7 +140,9 @@ class MemoListState extends State<MemoList> {
   Widget _buildTodoItem(String todoText, int index){
     return new ListTile(
         title: new Text(todoText),
-        onTap: () => _promptRemoveTodoItem(index)
+        //onTap: () => _promptRemoveTodoItem(index)
+        onTap: () {
+        },
     );
   }
 
@@ -153,6 +161,13 @@ class MemoListState extends State<MemoList> {
           tooltip: 'Add Memo',
           child: new Icon(Icons.add)
       ),
+
+      persistentFooterButtons: <Widget>[
+        new FloatingActionButton(
+          onPressed: _debugDumpMemoItems,
+          child: new Icon(Icons.local_hospital)
+        ),
+      ],
     );
   }
 
@@ -208,4 +223,11 @@ class MemoListState extends State<MemoList> {
     );
   }
 
+  void _debugDumpMemoItems() {
+    print('[${_memoItems.length}] items.');
+    for(var i = 0; i < _memoItems.length; i++ ){
+      print('  [${i}]');
+      _memoItems[i].dump();
+    }
+  }
 }
