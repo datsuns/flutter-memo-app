@@ -250,18 +250,18 @@ class MemoListState extends State<MemoList> {
   // as well as adding a back button to close it
   MaterialPageRoute _generateMemoRegisterView(BuildContext context) {
     return _generateMaterialPageWith(context, new Scaffold(
-            appBar: new AppBar(title: new Text('Add new Memo')),
-            body:   _generateMemoRegisterInput(context),
-          )
-        );
+      appBar: new AppBar(title: new Text('Add new Memo')),
+      body:   _generateMemoRegisterInput(context),
+    )
+    );
   }
 
   MaterialPageRoute _generateMemoEditView(BuildContext context, int index) {
     return _generateMaterialPageWith(context, new Scaffold(
-            appBar: new AppBar(title: new Text('Edit Memo')),
-            body:   _generateMemoEditInput(context, index),
-          )
-        );
+      appBar: new AppBar(title: new Text('Edit Memo')),
+      body:   _generateMemoEditInput(context, index),
+    )
+    );
   }
 
   void _pushAddMemoScreen() {
