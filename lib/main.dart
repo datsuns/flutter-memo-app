@@ -72,7 +72,9 @@ class MemoListState extends State<MemoList> {
   void _loadSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for(var key in prefs.getKeys()){
-      this._memoItems.add(new MemoItem(key, prefs.getString(key)));
+      setState( () {
+        this._memoItems.add(new MemoItem(key, prefs.getString(key)));
+      });
     }
   }
 
