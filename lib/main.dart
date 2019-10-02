@@ -185,7 +185,7 @@ class TodoListState extends State<TodoList> {
 
   // MaterialPageRoute will automatically animate the screen entry,
   // as well as adding a back button to close it
-  MaterialPageRoute _generateTaskMemoView(BuildContext context) {
+  MaterialPageRoute _generateMemoRegisterView(BuildContext context) {
     var page = new MaterialPageRoute(
           builder: (context) {
             return new Scaffold(
@@ -202,7 +202,7 @@ class TodoListState extends State<TodoList> {
   void _pushAddMemoScreen() {
     // Push this page onto the stack
     Navigator.of(context).push(
-      _generateTaskMemoView(context)
+      _generateMemoRegisterView(context)
     );
   }
 
