@@ -20,10 +20,10 @@ class MemoItem {
   String _body;
   String _saveKey;
 
-  MemoItem(String text) {
+  MemoItem(String key, String text) {
     this._body = text;
     this._title = text.split('\n')[0];
-    this._saveKey  = DateTime.now().toString();
+    this._saveKey  = key;
   }
 
   String title(){
@@ -57,21 +57,21 @@ class MemoListState extends State<MemoList> {
   void _loadSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for(var key in prefs.getKeys()){
-      _memoItems.add(new MemoItem(prefs.getString(key)));
+      _memoItems.add(new MemoItem(key, prefs.getString(key)));
     }
   }
 
   // Instead of auto generating a todo item, _addMemoItem now accepts a string
-  void _addMemoItem(String task) async {
+  void _addMemoItem(String body) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Putting our code inside "setState" tells the app that our state has changed,
     // and it will automatically re-render the list
     //             ^^^^^^^^^^^^^^^^^^^^^^^
     // ==> calling setState() to invoke MemoList.createState(),
     //     and that cause re-render
-    if( task.length > 0 ){
+    if( body.length > 0 ){
       setState( () {
-        var item = new MemoItem(task);
+        var item = new MemoItem(DateTime.now().toString(), body);
         _memoItems.add(item);
         prefs.setString(item.key(), item.body());
       });
